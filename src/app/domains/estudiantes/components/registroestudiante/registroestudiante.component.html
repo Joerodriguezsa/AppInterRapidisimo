@@ -1,0 +1,106 @@
+<div class="container mx-auto">
+    <div class="max-w-screen-xl mx-auto p-4">
+        <form class="max-w-sm mx-auto">
+            <label for="studiantes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione
+                Estudiante</label>
+            <select id="studiantes" (change)="onSelected($event)"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected>Estudiantes</option>
+                <option [value]="estudiante.id" *ngFor="let estudiante of estudiantes()">{{estudiante.cedula}}
+                    {{estudiante.nombre}} {{estudiante.apellido}}</option>
+            </select>
+        </form>
+        <br />
+        <div *ngIf="divRegistro">
+            <div class="max-w-screen-xl mx-auto p-4">
+                <label for="mat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Busqueda de
+                    Materias
+                    Para Registradas</label>
+                <input type="text"
+                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring focus:ring-blue-100 dark:bg-gray-800 dark:text-white"
+                    (input)="onSearch($event)"
+                    placeholder="Buscar por cédula o nombre del docente o nombre de la materia">
+
+                <table class="w-full mt-4">
+                    <thead>
+                        <tr>
+                            <th>Cédula del Docente</th>
+                            <th>Nombre del Docente</th>
+                            <th>Nombre de la Materia</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let materiaMaestro of filteredMateriasMaestro">
+                            <td>{{ materiaMaestro.docenteCedula }}</td>
+                            <td>{{ materiaMaestro.docenteNombre }}</td>
+                            <td>{{ materiaMaestro.materiaNombre }}</td>
+                            <td>
+                                <input type="checkbox" [checked]="selectedMateriaMaestro === materiaMaestro"
+                                    (change)="selectMateriaMaestro(materiaMaestro)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button (click)="registrarMateria()"
+                    class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                    <span
+                        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                        Registrar Materia
+                    </span>
+                </button>
+            </div>
+            <br />
+            <label for="mat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Materias
+                Registradas</label>
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Cedula
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Maestro
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Creditos
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            *ngFor="let item of estudianteMaterias(); let i = index;">
+
+                            <td class="px-6 py-4">
+                                {{item.nombreMateria}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{item.nombreDocente}} {{item.apellidoDocente}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{item.creditos}}
+                            </td>
+                            <td class="px-6 py-4">
+                                <button (click)="eliminarMateriaRegistrada(item.id)"
+                                    class="text-red-500 hover:text-red-700">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <p></p>
+            <app-materiascompartidas [idEstudiante]="estudianteId()"></app-materiascompartidas>
+        </div>
+        <br />
+        <p></p>
+    </div>
+    <p></p>
+</div>
